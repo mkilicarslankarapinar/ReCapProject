@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -19,47 +21,57 @@ namespace Business.Concrete
             _carDao = carDao;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
+ 
             if (car.CarName.Length >= 2 && car.DailyPrice > 0)
             {
                 _carDao.Add(car);
             }
+            return new Result(true, Messages.CarAdded);
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
+
             _carDao.Delete(car);
+            return new Result(true, Messages.CarDeleted);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAllCars()
         {
-            return _carDao.GetAll();
+            //if (DateTime.Now.Hour == 19)
+            //{
+            //    return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            //}
+            return new SuccessDataResult<List<Car>>(_carDao.GetAll());
         }
 
-        public List<Car> GetById(int id)
-        {
-            return _carDao.GetAll(c=>c.CarId == id);
+        public IDataResult<List<Car>> GetById(int id)
+        { 
+            return new SuccessDataResult<List<Car>>(_carDao.GetAll(c => c.CarId == id));
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _carDao.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDao.GetCarDetails());
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return _carDao.GetAll(b=> b.BrandId==brandId);
+            return new SuccessDataResult<List<Car>>(_carDao.GetAll(b=> b.BrandId==brandId));
         }
 
-        public List<Car> GetCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return _carDao.GetAll(c => c.ColorId == colorId);
+            return new SuccessDataResult<List<Car>>(_carDao.GetAll(c => c.ColorId == colorId));
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
+
             _carDao.Update(car);
+            return new Result(true, Messages.CarUpdated);
         }
     }
 }

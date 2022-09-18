@@ -1,6 +1,5 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
-using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 
 internal class Program
@@ -8,7 +7,7 @@ internal class Program
     private static void Main(string[] args)
     {
         //CarDetailTEST();
-        //AddCarTEST();
+        AddCarTEST();
         //UpdateCarTEST();
         //DeleteCarTEST();
         //GetAllCars();
@@ -21,46 +20,88 @@ internal class Program
     private static void GetCarsByColorIdTEST()
     {
         CarManager carManager = new CarManager(new EfCarDao());
+        var result = carManager.GetCarsByColorId(2);
 
-        foreach (var car in carManager.GetCarsByColorId(2))
+        if (result.Success == true)
         {
-            Console.WriteLine(car.CarName);
+            foreach (var car in result.Data)
+            {
+                Console.WriteLine(car.CarName);
+            }
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
         }
     }
 
     private static void GetCarsByBrandIdTEST()
     {
         CarManager carManager = new CarManager(new EfCarDao());
-        foreach (var car in carManager.GetCarsByBrandId(2))
+        var result = carManager.GetCarsByBrandId(2);
+        if (result.Success == true)
         {
-            Console.WriteLine(car.CarName);
+            foreach (var car in result.Data)
+            {
+                Console.WriteLine(car.CarName);
+            }
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
         }
     }
 
     private static void ColorTEST()
     {
         ColorManager colorManager = new ColorManager(new EfColorDao());
-        foreach (var color in colorManager.GetAll())
+        var result = colorManager.GetAll();
+        if (result.Success == true)
         {
-            Console.WriteLine(color.ColorName);
+            foreach (var color in result.Data)
+            {
+                Console.WriteLine(color.ColorName);
+            }
         }
+        else
+        {
+            Console.WriteLine(result.Message);
+        }
+       
     }
 
     private static void BrandTEST()
     {
         BrandManager brandManager = new BrandManager(new EfBrandDao());
-        foreach (var brand in brandManager.GetAll())
+        var result = brandManager.GetAll();
+        if (result.Success == true)
         {
-            Console.WriteLine(brand.BrandName);
+            foreach (var brand in result.Data)
+            {
+                Console.WriteLine(brand.BrandName);
+            }
         }
+        else
+        {
+            Console.WriteLine(result.Message);
+        }
+        
     }
 
     private static void GetAllCars()
     {
         CarManager carManager = new CarManager(new EfCarDao());
-        foreach (var car in carManager.GetAll())
+        var result = carManager.GetAllCars();
+        if (result.Success == true)
         {
-            Console.WriteLine(car.CarName);
+            foreach (var car in result.Data)
+            {
+                Console.WriteLine(car.CarName);
+            }
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
         }
     }
 
@@ -83,7 +124,7 @@ internal class Program
     private static void AddCarTEST()
     {
         CarManager carManager = new CarManager(new EfCarDao());
-        var car = new Car { CarName = "Güllü", BrandId = 1, ColorId = 5, ModelYear = "2017", DailyPrice = 225, Description = "Duster" };
+        var car = new Car { CarId = 21 ,CarName = "Deneme1", BrandId = 3, ColorId = 2, ModelYear = "2010", DailyPrice = 125, Description = "Deneme1" };
         carManager.Add(car);
         Console.WriteLine("İşlem Başarılı");
     }
@@ -91,17 +132,18 @@ internal class Program
     private static void CarDetailTEST()
     {
         CarManager carManager = new CarManager(new EfCarDao());
-        foreach (var car in carManager.GetCarDetails())
+        var result = carManager.GetCarDetails();
+        if (result.Success == true)
         {
-            Console.WriteLine(car.CarName + " " + car.BrandName + " " + car.ColorName + " " + car.DailyPrice);
+            foreach (var car in result.Data)
+            {
+                Console.WriteLine(car.CarName + " " + car.BrandName + " " + car.ColorName + " " + car.DailyPrice);
+            }
+        }
+        else
+        {
+            Console.WriteLine(result.Message);
         }
     }
 }
 
-
-//CarManager carManager = new CarManager(new EfCarDao());
-
-//foreach (var car in carManager.GetAll())
-//{
-//    Console.WriteLine(car.DailyPrice);
-//}
