@@ -1,13 +1,17 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
+
 
 internal class Program
 {
     private static void Main(string[] args)
     {
         //CarDetailTEST();
-        AddCarTEST();
+        //AddCarTEST();
         //UpdateCarTEST();
         //DeleteCarTEST();
         //GetAllCars();
@@ -15,7 +19,11 @@ internal class Program
         //ColorTEST();
         //GetCarsByBrandIdTEST();
         //GetCarsByColorIdTEST();
+
+
     }
+
+
 
     private static void GetCarsByColorIdTEST()
     {
@@ -146,4 +154,3 @@ internal class Program
         }
     }
 }
-

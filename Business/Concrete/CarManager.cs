@@ -24,27 +24,30 @@ namespace Business.Concrete
         public IResult Add(Car car)
         {
  
-            if (car.CarName.Length >= 2 && car.DailyPrice > 0)
+            if (car.CarName.Length <= 2 && car.DailyPrice < 0)
             {
-                _carDao.Add(car);
+                
+                return new ErrorResult(Messages.CarNameInvalid);
             }
-            return new Result(true, Messages.CarAdded);
+            _carDao.Add(car);
+            return new SuccessResult(Messages.CarAdded);
         }
 
         public IResult Delete(Car car)
         {
 
             _carDao.Delete(car);
-            return new Result(true, Messages.CarDeleted);
+
+            return new SuccessResult(Messages.CarDeleted);
         }
 
         public IDataResult<List<Car>> GetAllCars()
         {
-            //if (DateTime.Now.Hour == 19)
+            //if (DateTime.Now.Hour == 16)
             //{
             //    return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             //}
-            return new SuccessDataResult<List<Car>>(_carDao.GetAll());
+            return new SuccessDataResult<List<Car>>(_carDao.GetAll(), Messages.CarListed);
         }
 
         public IDataResult<List<Car>> GetById(int id)
@@ -71,7 +74,7 @@ namespace Business.Concrete
         {
 
             _carDao.Update(car);
-            return new Result(true, Messages.CarUpdated);
+            return new SuccessResult(Messages.CarUpdated);
         }
     }
 }
